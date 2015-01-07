@@ -38,6 +38,9 @@ color()(set -o pipefail;"$@" 2>&1>&3|sed $'s,.*,\e[31m&\e[m,'>&2)3>&1
 
 err()(echo $@ >&2)
 
+#http://stackoverflow.com/a/13701495/321973
+winpath2posix() (echo /$@ | sed -e 's/\\/\//g' -e 's/://')
+
 case $(uname -s) in
 	CYGWIN*)
 		alias grep='grep --color=auto'
@@ -55,6 +58,7 @@ case $(uname -s) in
 		;;
 	MINGW*)
 		alias edit=$EDIT
+		export SSH_AUTH_SOCK="$(winpath2posix "$SSH_AUTH_SOCK")"
 		;;
 	*)
 		err "Unhandled system: " $(uname -s)
