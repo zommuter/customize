@@ -5,12 +5,26 @@ CL_G="\[\e[0;32m\]"
 CL_B="\[\e[0;34m\]"
 #CL_W="\[\e[1;37m\]"
 ON_R="\[\e[41m\]"
-export PROMPT_COMMAND='ERR=$?'
+PROMPT_COMMAND='ERR=$?'
 ERR="\$([[ \$ERR != 0 ]] && echo ${ON_R})\$(printf '%3i' \$ERR)${CL_D}"
 USR="${CL_G}\\u${CL_D}"
 HST="${CL_R}\\h${CL_D}"
 WRK="${CL_B}\\w${CL_D}"
-export PS1="${ERR} ${USR}@${HST}:${WRK}"'\$'
+
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+# Explicitly unset color (default anyhow). Use 1 to set it.
+GIT_PS1_SHOWCOLORHINTS=
+GIT_PS1_DESCRIBE_STYLE="branch"
+GIT_PS1_SHOWUPSTREAM="auto git verbose"
+if [ $(type -t __git_ps1) ]; then  # check if __git_ps1 actually exists!
+	GIT="${CL_G}"'$(__git_ps1)'"${CL_D}"
+else
+	GIT=""
+fi
+
+export PS1="${ERR} ${USR}@${HST}:${WRK}${GIT}"'\$'
 
 export DISPLAY=:0.0
 
