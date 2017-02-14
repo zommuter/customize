@@ -8,3 +8,15 @@
 	ui = true
 [apply]
 	whitespace = nowarn
+[push]
+	default = matching
+	followTags = true
+[gui]
+	encoding = utf-8
+[core]
+	pager = less --raw-control-chars
+	autocrlf = false
+	hideDotFiles = dotGitOnly
+[alias]
+	branches = branch -avv
+	glog = log --oneline --decorate --graph
