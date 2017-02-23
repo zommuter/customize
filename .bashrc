@@ -53,9 +53,16 @@ EDIT=notepad++
 EDITOR=$EDIT
 VISUAL=$EDIT
 alias st='git status'
-alias gd='git diff --ignore-space-change --color-words'
+#alias gd='git diff --ignore-space-change --color-words'
+#alias gd='git diff --ignore-space-change --word-diff-regex=.'
+
+#https://stackoverflow.com/a/25634420/321973
+alias gd="git diff --color-words='[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+'"
+alias gdp="git diff --color-words='[[:space:]]|([[:alnum:]]|UTF_8_GUARD)+' --word-diff=plain"
+
 alias gk='gitk --all &'
-alias gp='git pull && git push'
+#alias gp='[[ $(git pull) == "Already up-to-date." ]] || git push'
+alias gp='git pull --rebase && git push'
 
 #http://stackoverflow.com/a/16178979
 color()(set -o pipefail;"$@" 2>&1>&3|sed $'s,.*,\e[31m&\e[m,'>&2)3>&1
@@ -87,3 +94,6 @@ case $(uname -s) in
 	*)
 		err "Unhandled system: " $(uname -s)
 esac
+
+pless() (pygmentize -g $@ | less)
+zlipd() (printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" |cat - $@ |gzip -dc)
