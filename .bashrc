@@ -94,7 +94,15 @@ case $(uname -s) in
 	*)
 		err "Unhandled system: " $(uname -s)
 esac
+#alias cdi='cd /g/TD/kit/InDesign/Templates/'
+alias cdi='cd /g/TD/VORLAGEN/2017-InDesign/Template/'
+alias cdp='cd $USERPROFILE/Documents/Pandoc/'
+alias cds='cd $USERPROFILE/Documents/src/'
+alias cdd='cd $USERPROFILE/Documents/'
+alias cdg='cd /g/TD/kit/git.repositories/'
+alias cdt='cd $USERPROFILE/Documents/tmp/'
 
+alias pcat="pygmentize -g"
 pless() (pygmentize -g $@ | less)
 zlipd() (printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" |cat - $@ |gzip -dc)
 
