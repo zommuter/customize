@@ -18,6 +18,9 @@
 	autocrlf = false
 	filemode = False
 	hideDotFiles = dotGitOnly
+	editor = notepad++
+[credential]
+	helper = wincred
 [alias]
 	branches = branch -avv
 	glog = log --oneline --decorate --graph
