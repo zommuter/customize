@@ -3,6 +3,10 @@
 ## arrow down
 "\e[B":history-search-forward
 
+# CTRL ← / →
+"\e[1;5C":forward-word
+"\e[1;5D":backward-word
+
 set completion-ignore-case on
 set visible-stats on
 set match-hidden-files off
