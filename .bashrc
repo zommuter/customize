@@ -34,6 +34,7 @@ else
 fi
 
 PS1="${ERR} ${USR}@${HST}:${WRK}${GIT}"'\$'
+PS1="\[\e]0;\${ERL} \u@\h: \w\007\]${PS1}"
 
 DISPLAY=:0.0
 
