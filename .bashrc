@@ -87,7 +87,7 @@ case $(uname -s) in
 		MANPATH="${HOME}/pkg/man:${MANPATH}"
 		#PKG_DBDIR="${HOME}/pkg/var"
 		;;
-	MINGW*)
+	MINGW*|MSYS*)
 		alias edit=$EDIT
 		SSH_AUTH_SOCK="$(winpath2posix "$SSH_AUTH_SOCK")"
 		;;
