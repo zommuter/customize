@@ -6,6 +6,15 @@ CL_B="\[\e[0;34m\]"
 #CL_W="\[\e[1;37m\]"
 ON_R="\[\e[41m\]"
 PROMPT_COMMAND="ERL=\$?"
+
+# https://unix.stackexchange.com/a/18443/863
+HISTFILESIZE=5000
+HISTSIZE=5000
+#HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
+HISTCONTROL=ignoredups:erasedups
+shopt -s histappend
+PROMPT_COMMAND="$PROMPT_COMMAND;history -n; history -w; history -c; history -r"
+
 ERR="\$([[ \$ERL != 0 ]] && echo ${ON_R})\$(printf '%3i' \$ERL)${CL_D}"
 USR="${CL_G}\\u${CL_D}"
 HST="${CL_R}\\h${CL_D}"
