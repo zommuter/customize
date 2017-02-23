@@ -12,3 +12,8 @@ set visible-stats on
 set match-hidden-files off
 set show-all-if-ambiguous on
 "\M-s": menu-complete
+
+## should be defaults anyway
+set input-meta on
+set output-meta on
+set convert-meta off
