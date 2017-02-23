@@ -106,5 +106,7 @@ alias pcat="pygmentize -g"
 pless() (pygmentize -g $@ | less)
 zlipd() (printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" |cat - $@ |gzip -dc)
 
+HOME=${HOME%%/}  # remove accidental trailing slash
+
 # https://stackoverflow.com/a/7110386/321973
 trap 'echo -ne "\033]0;$(history 1 | sed "s/^[ ]*[0-9]*[ ]*//g")\007"' DEBUG
