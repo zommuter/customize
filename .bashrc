@@ -33,13 +33,13 @@ else
 	GIT=""
 fi
 
-export PS1="${ERR} ${USR}@${HST}:${WRK}${GIT}"'\$'
+PS1="${ERR} ${USR}@${HST}:${WRK}${GIT}"'\$'
 
-export DISPLAY=:0.0
+DISPLAY=:0.0
 
-export LANG=C
-export LC_ALL=C
-export LC_CTYPE=C
+LANG=C
+LC_ALL=$LANG
+LC_CTYPE=C
 
 alias ls='ls --color -Fh'
 alias l='ls'
@@ -48,9 +48,9 @@ alias la='ls -la'
 alias ..='cd ..'
 alias ...='cd ../..'
 
-export EDIT=notepad++
-export EDITOR=$EDIT
-export VISUAL=$EDIT
+EDIT=notepad++
+EDITOR=$EDIT
+VISUAL=$EDIT
 alias st='git status'
 alias gd='git diff --ignore-space-change --color-words'
 alias gk='gitk --all &'
@@ -69,19 +69,19 @@ case $(uname -s) in
 		alias grep='grep --color=auto'
 		edit() (notepad++ $(cygpath -w $@))
 		
-		export EPREFIX="/gentoo"
-		#export OVERLAY="/overlay"
-		export WINPATH="${PATH}"
-		export PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/cygdrive/ {next} {print}' | sed 's/:*$//')
-		export PATH="/usr/local/bin:/usr/bin:/bin:${PATH}"
-		export PATH="${EPREFIX}/lib:${EPREFIX}/usr/lib:${EPREFIX}/usr/bin:${EPREFIX}/bin:${EPREFIX}/tmp/usr/bin:${EPREFIX}/tmp/bin:${PATH}"
-		export PATH="${HOME}/pkg/sbin:${HOME}/pkg/bin:${PATH}"
-		export MANPATH="${HOME}/pkg/man:${MANPATH}"
-		#export PKG_DBDIR="${HOME}/pkg/var"
+		EPREFIX="/gentoo"
+		#OVERLAY="/overlay"
+		WINPATH="${PATH}"
+		PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/cygdrive/ {next} {print}' | sed 's/:*$//')
+		PATH="/usr/local/bin:/usr/bin:/bin:${PATH}"
+		PATH="${EPREFIX}/lib:${EPREFIX}/usr/lib:${EPREFIX}/usr/bin:${EPREFIX}/bin:${EPREFIX}/tmp/usr/bin:${EPREFIX}/tmp/bin:${PATH}"
+		PATH="${HOME}/pkg/sbin:${HOME}/pkg/bin:${PATH}"
+		MANPATH="${HOME}/pkg/man:${MANPATH}"
+		#PKG_DBDIR="${HOME}/pkg/var"
 		;;
 	MINGW*)
 		alias edit=$EDIT
-		export SSH_AUTH_SOCK="$(winpath2posix "$SSH_AUTH_SOCK")"
+		SSH_AUTH_SOCK="$(winpath2posix "$SSH_AUTH_SOCK")"
 		;;
 	*)
 		err "Unhandled system: " $(uname -s)
