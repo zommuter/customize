@@ -37,9 +37,9 @@ PS1="${ERR} ${USR}@${HST}:${WRK}${GIT}"'\$'
 
 DISPLAY=:0.0
 
-LANG=C
-LC_ALL=$LANG
-LC_CTYPE=C
+#LANG=C
+#LC_ALL=$LANG
+#LC_CTYPE=C
 
 alias ls='ls --color -Fh'
 alias l='ls'
