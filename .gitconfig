@@ -25,5 +25,5 @@
 	branches = branch -avv
 	glog = log --oneline --decorate --graph
 [user]
-	email = zommuter@users.noreply.github.com
 	name = Tobias Kienzler
+	email = zommuter@users.noreply.github.com
