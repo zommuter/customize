@@ -84,7 +84,7 @@ case $(uname -s) in
 		VISUAL=$EDIT
 		;;
 	MINGW*|MSYS*)
-		SSH_AUTH_SOCK="$(winpath2posix "$SSH_AUTH_SOCK")"
+		#SSH_AUTH_SOCK="$(winpath2posix "$SSH_AUTH_SOCK")"
 		EDIT=notepad++
 		;;
 	Linux*)
@@ -93,6 +93,10 @@ case $(uname -s) in
 	*)
 		err "Unhandled system: " $(uname -s)
 esac
+
+if [ -f "${HOME}/.bash_completion" ] ; then
+  source "${HOME}/.bash_completion"
+fi
 
 alias edit=$EDIT
 EDITOR=$EDIT
