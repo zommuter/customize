@@ -49,19 +49,12 @@ alias la='ls -la'
 alias ..='cd ..'
 alias ...='cd ../..'
 
-EDIT=notepad++
-EDITOR=$EDIT
-VISUAL=$EDIT
 alias st='git status'
-#alias gd='git diff --ignore-space-change --color-words'
-#alias gd='git diff --ignore-space-change --word-diff-regex=.'
-
 #https://stackoverflow.com/a/25634420/321973
 alias gd="git diff --color-words='[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+'"
 alias gdp="git diff --color-words='[[:space:]]|([[:alnum:]]|UTF_8_GUARD)+' --word-diff=plain"
 
 alias gk='gitk --all &'
-#alias gp='[[ $(git pull) == "Already up-to-date." ]] || git push'
 alias gp='git pull --rebase && git push'
 
 #http://stackoverflow.com/a/16178979
@@ -86,20 +79,28 @@ case $(uname -s) in
 		PATH="${HOME}/pkg/sbin:${HOME}/pkg/bin:${PATH}"
 		MANPATH="${HOME}/pkg/man:${MANPATH}"
 		#PKG_DBDIR="${HOME}/pkg/var"
+		EDIT=notepad++
+		EDITOR=$EDIT
+		VISUAL=$EDIT
 		;;
 	MINGW*|MSYS*)
-		alias edit=$EDIT
 		SSH_AUTH_SOCK="$(winpath2posix "$SSH_AUTH_SOCK")"
+		EDIT=notepad++
+		;;
+	Linux*)
+		EDIT=nano
 		;;
 	*)
 		err "Unhandled system: " $(uname -s)
 esac
-#alias cdi='cd /g/TD/kit/InDesign/Templates/'
-alias cdi='cd /g/TD/VORLAGEN/2017-InDesign/Template/'
+
+alias edit=$EDIT
+EDITOR=$EDIT
+VISUAL=$EDIT
+
 alias cdp='cd $USERPROFILE/Documents/Pandoc/'
 alias cds='cd $USERPROFILE/Documents/src/'
 alias cdd='cd $USERPROFILE/Documents/'
-alias cdg='cd /g/TD/kit/git.repositories/'
 alias cdt='cd $USERPROFILE/Documents/tmp/'
 
 alias pcat="pygmentize -g"
@@ -107,7 +108,6 @@ pless() (pygmentize -g $@ | less)
 zlipd() (printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" |cat - $@ |gzip -dc)
 
 HOME=${HOME%%/}  # remove accidental trailing slash
-#eval $(dircolors ~/dircolors.256dark)
 eval $(dircolors ~/customize/dircolors-solarized/dircolors.ansi-light)
 
 # https://stackoverflow.com/a/7110386/321973
