@@ -29,3 +29,5 @@
 	email = tobias.kienzler@tool-temp.ch
 [http]
 	sslVerify = false
+[pull]
+	ff = only
