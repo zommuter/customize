@@ -20,7 +20,7 @@
 	hideDotFiles = dotGitOnly
 	editor = notepad++
 [credential]
-	helper = wincred
+	helper = cache
 [alias]
 	branches = branch -avv
 	glog = log --oneline --decorate --graph

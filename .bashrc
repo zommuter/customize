@@ -150,13 +150,21 @@ man() {
     command man "$@"
 }
 
-eval $(ssh-agent)
-if [ -f ~/.ssh/id_rsa ] ; then
-  cat ~/.ssh/id_rsa | ssh-add -k -
+# try the shared socket first, only spawn a local agent on failure
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+#if [ -z ${SSH_AUTH_SOCK:+x} ] ; then
+if ! $(ssh-add -l > /dev/null 2>&1) ; then
+  eval $(ssh-agent)
+  if [ -f ~/.ssh/id_rsa ] ; then
+    cat ~/.ssh/id_rsa | ssh-add -k -
+  fi
+  ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
 fi
+
 alias ofoam="source /opt/OpenFOAM/OpenFOAM-v2006/etc/bashrc"
 alias of="source /opt/OpenFOAM/OpenFOAM-v2006/etc/bashrc"
 alias paraFoam="paraFoam -builtin"
 
 npp ()(notepad++.exe $(readlink -f "$1") &)
 delink ()(cp --remove-destination "$(readlink -f ""$1"")" "$1")
+
