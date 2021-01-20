@@ -168,3 +168,8 @@ alias paraFoam="paraFoam -builtin"
 npp ()(notepad++.exe $(readlink -f "$1") &)
 delink ()(cp --remove-destination "$(readlink -f ""$1"")" "$1")
 
+# https://unix.stackexchange.com/a/113768/863
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  # https://unix.stackexchange.com/a/176885/863
+  exec tmux new-session -A -s main
+fi
