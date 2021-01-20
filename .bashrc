@@ -19,26 +19,37 @@ shopt -s direxpand
 PROMPT_COMMAND="$PROMPT_COMMAND;history -n; history -w; history -c; history -r"
 
 ERR="\$([[ \$ERL != 0 ]] && echo ${ON_R})\$(printf '%3i' \$ERL)${CL_D}"
-USR="${CL_G}\\u${CL_D}"
+#USR="${CL_G}\\u${CL_D}"
 #HST="${CL_R}\\h${CL_D}"
-WRK="${CL_B}\\w${CL_D}"
+#WRK="${CL_B}\\w${CL_D}"
 
 hash2rgb()
 {
   HASH=$(echo $1 | sha1sum)
-  R=$((16#${HASH:0:2}))
-  G=$((16#${HASH:2:2}))
-  B=$((16#${HASH:4:2}))
-  C=$((256-$R))
-  M=$((256-$G))
-  Y=$((256-$B))
+  C=$((16#${HASH:0:2}/2))
+  M=$((16#${HASH:2:2}/2))
+  Y=$((16#${HASH:4:2}/2))
+  R=$((256-$C))
+  G=$((256-$M))
+  B=$((256-$Y))
   FG="\e[38;2;${R};${G};${B}m"
   BG="\e[48;2;${C};${M};${Y}m"
   echo "\[${FG}${BG}\]"
 }
 
-HST_COL=$(hash2rgb $HOSTNAME)
-HST="${HST_COL}\\h${CL_D}"
+CL_HST=$(hash2rgb $HOSTNAME)
+HST="${CL_HST}\\h${CL_D}"
+
+CL_USR=$(hash2rgb $USER)
+USR="${CL_USR}\\u${CL_D}"
+
+PWD_COLOR=auto
+PROMPT_COMMAND="$PROMPT_COMMAND
+  CL_WRK=\"\\$(echo ${CL_B})\"
+  [ \"\$PWD_COLOR\" = \"auto\" ] && CL_WRK=\$(hash2rgb \$PWD)"
+WRK="\${CL_WRK}\\w${CL_D}"
+
+source /usr/share/git/completion/git-prompt.sh
 
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
@@ -53,8 +64,13 @@ else
 	GIT=""
 fi
 
-PS1="${ERR} ${USR}@${HST}:${WRK}${GIT}"'\$'
+CL_HSTUSR=$(hash2rgb $USER@$HOSTNAME)
+PS1="${ERR} ${USR}@${HST}${CL_HSTUSR}:${CL_D}${WRK}${GIT}${CL_HSTUSR}"'\$'"${CL_D}"
+#PS1="${ERR} ${USR}@${HST}:${WRK}${GIT}"'\$'
 PS1="\[\e]0;\${ERL} \u@\h: \w\007\]${PS1}"
+
+PS1_TEMPLATE="$PS1"
+PROMPT_COMMAND="$PROMPT_COMMAND;PS1=\"$(echo ${PS1_TEMPLATE})\""
 
 DISPLAY=:0.0
 
