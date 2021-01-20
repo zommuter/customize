@@ -20,8 +20,19 @@ PROMPT_COMMAND="$PROMPT_COMMAND;history -n; history -w; history -c; history -r"
 
 ERR="\$([[ \$ERL != 0 ]] && echo ${ON_R})\$(printf '%3i' \$ERL)${CL_D}"
 USR="${CL_G}\\u${CL_D}"
-HST="${CL_R}\\h${CL_D}"
+#HST="${CL_R}\\h${CL_D}"
 WRK="${CL_B}\\w${CL_D}"
+
+HOSTHASH=$(echo $HOSTNAME | sha1sum)
+HOST_R=$((16#${HOSTHASH:0:2}))
+HOST_G=$((16#${HOSTHASH:2:2}))
+HOST_B=$((16#${HOSTHASH:4:2}))
+HOST_C=$((16#${HOSTHASH:6:2}))
+HOST_M=$((16#${HOSTHASH:6:2}))
+HOST_Y=$((16#${HOSTHASH:6:2}))
+HST_FG="\e[38;2;${HOST_R};${HOST_G};${HOST_B}m"
+HST_BG="\e[48;2;${HOST_C};${HOST_M};${HOST_Y}m"
+HST="\[${HST_FG}${HST_BG}\]\\h${CL_D}"
 
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
