@@ -170,6 +170,8 @@ delink ()(cp --remove-destination "$(readlink -f ""$1"")" "$1")
 
 # https://unix.stackexchange.com/a/113768/863
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  echo "Press CTRL+C now to skip tmux"
+  sleep 5
   # https://unix.stackexchange.com/a/176885/863
-  exec tmux new-session -A -s main
+  exec tmux -2 new-session -A -s main
 fi
