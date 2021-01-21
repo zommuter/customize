@@ -18,7 +18,7 @@ shopt -s histappend
 shopt -s direxpand
 PROMPT_COMMAND="$PROMPT_COMMAND;history -n; history -w; history -c; history -r"
 
-ERR="\$([[ \$ERL != 0 ]] && echo ${ON_R})\$(printf '%3i' \$ERL)${CL_D}"
+ERR="\$([[ \$ERL != 0 ]] && echo \${ON_R})\$(printf '%3i' \$ERL)${CL_D}"
 #USR="${CL_G}\\u${CL_D}"
 #HST="${CL_R}\\h${CL_D}"
 #WRK="${CL_B}\\w${CL_D}"
