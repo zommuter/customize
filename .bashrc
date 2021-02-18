@@ -68,6 +68,9 @@ alias cdd='cd "$USERPROFILE/Documents/"'
 alias cdt='cd "$USERPROFILE/Documents/tmp/"'
 alias cde='cd /g/Entwicklung'
 
+alias pi.docker='docker -H ssh://pi'
+alias ike.docker='docker -H ssh://ike'
+
 alias pcat="pygmentize -g"
 pless() (pygmentize -g $@ | less)
 zlipd() (printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" |cat - $@ |gzip -dc)
