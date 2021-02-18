@@ -1,79 +1,4 @@
-
 #!/bin/bash
-CL_D="\[\e[m\]"
-CL_R="\[\e[0;31m\]"
-CL_G="\[\e[0;32m\]"
-CL_B="\[\e[0;34m\]"
-#CL_W="\[\e[1;37m\]"
-ON_R="\[\e[41m\]"
-PROMPT_COMMAND="ERL=\$?"
-
-# https://unix.stackexchange.com/a/18443/863
-HISTFILESIZE=5000
-HISTSIZE=5000
-#HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
-HISTCONTROL=ignoredups:erasedups
-shopt -s histappend
-# https://askubuntu.com/a/318746/929
-shopt -s direxpand
-PROMPT_COMMAND="$PROMPT_COMMAND;history -n; history -w; history -c; history -r"
-
-ERR="\$([[ \$ERL != 0 ]] && echo \${ON_R})\$(printf '%3i' \$ERL)${CL_D}"
-#USR="${CL_G}\\u${CL_D}"
-#HST="${CL_R}\\h${CL_D}"
-#WRK="${CL_B}\\w${CL_D}"
-
-hash2rgb()
-{
-  HASH=$(echo $1 | sha1sum)
-  C=$((16#${HASH:0:2}/2))
-  M=$((16#${HASH:2:2}/2))
-  Y=$((16#${HASH:4:2}))
-  R=$((256-$C/2))
-  G=$((256-$M))
-  B=$((256-$Y/2))
-  FG="\e[38;2;${R};${G};${B}m"
-  BG="\e[48;2;${C};${M};${Y}m"
-  echo "\[${FG}${BG}\]"
-}
-
-CL_HST=$(hash2rgb $HOSTNAME)
-HST="${CL_HST}\\h${CL_D}"
-
-CL_USR=$(hash2rgb $USER)
-USR="${CL_USR}\\u${CL_D}"
-
-PWD_COLOR=auto
-PROMPT_COMMAND="$PROMPT_COMMAND
-  CL_WRK=\"\\$(echo ${CL_B})\"
-  [ \"\$PWD_COLOR\" = \"auto\" ] && CL_WRK=\$(hash2rgb \$PWD)"
-WRK="\${CL_WRK}\\w${CL_D}"
-
-source /usr/share/git/completion/git-prompt.sh
-
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWSTASHSTATE=1
-GIT_PS1_SHOWUNTRACKEDFILES=1
-# Explicitly unset color (default anyhow). Use 1 to set it.
-GIT_PS1_SHOWCOLORHINTS=
-GIT_PS1_DESCRIBE_STYLE="branch"
-GIT_PS1_SHOWUPSTREAM="auto git verbose"
-if [ $(type -t __git_ps1) ]; then  # check if __git_ps1 actually exists!
-	GIT="${CL_G}"'$(__git_ps1)'"${CL_D}"
-else
-	GIT=""
-fi
-
-CL_HSTUSR=$(hash2rgb $USER@$HOSTNAME)
-PS1="${ERR} ${USR}@${HST}${CL_HSTUSR}:${CL_D}${WRK}${GIT}${CL_HSTUSR}"'\$'"${CL_D}"
-#PS1="${ERR} ${USR}@${HST}:${WRK}${GIT}"'\$'
-PS1="\[\e]0;\${ERL} \u@\h: \w\007\]${PS1}"
-
-PS1_TEMPLATE="$PS1"
-PROMPT_COMMAND="$PROMPT_COMMAND;PS1=\"$(echo ${PS1_TEMPLATE})\""
-
-DISPLAY=:0.0
-
 #LANG=C
 #LC_ALL=$LANG
 #LC_CTYPE=C
@@ -133,10 +58,6 @@ case $(uname -s) in
 		err "Unhandled system: " $(uname -s)
 esac
 
-if [ -f "${HOME}/.bash_completion" ] ; then
-  source "${HOME}/.bash_completion"
-fi
-
 alias edit=$EDIT
 EDITOR=$EDIT
 VISUAL=$EDIT
@@ -152,10 +73,10 @@ pless() (pygmentize -g $@ | less)
 zlipd() (printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" |cat - $@ |gzip -dc)
 
 export HOME=${HOME%%/}  # remove accidental trailing slash
-eval $(dircolors ~/customize/dircolors-solarized/dircolors.ansi-light)
+#eval $(dircolors ~/customize/dircolors-solarized/dircolors.ansi-light)
 
 # https://stackoverflow.com/a/7110386/321973
-trap 'echo -ne "\033]0;$(history 1 | sed "s/^[ ]*[0-9]*[ ]*//g")\007"' DEBUG
+#trap 'echo -ne "\033]0;$(history 1 | sed "s/^[ ]*[0-9]*[ ]*//g")\007"' DEBUG
 
 alias cnf="pacman -F"
 #alias ofoam="source /opt/OpenFOAM/OpenFOAM-v1912/etc/bashrc"
@@ -187,7 +108,7 @@ man() {
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 #if [ -z ${SSH_AUTH_SOCK:+x} ] ; then
 if ! $(ssh-add -l > /dev/null 2>&1) ; then
-  eval $(ssh-agent)
+  eval $(ssh-agent) > /dev/null 2>&1
   if [ -f ~/.ssh/id_rsa ] ; then
     cat ~/.ssh/id_rsa | ssh-add -k -
   fi
@@ -200,11 +121,3 @@ alias paraFoam="paraFoam -builtin"
 
 npp ()(notepad++.exe $(readlink -f "$1") &)
 delink ()(cp --remove-destination "$(readlink -f ""$1"")" "$1")
-
-# https://unix.stackexchange.com/a/113768/863
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  echo "Press CTRL+C now to skip tmux"
-  sleep 5
-  # https://unix.stackexchange.com/a/176885/863
-  exec tmux -2 new-session -A -s main
-fi
