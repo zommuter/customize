@@ -1,33 +1,7 @@
-[color]
-	branch = true
-	diff = true
-	grep = true
-	interactive = true
-	showbranch = true
-	status = true
-	ui = true
-[apply]
-	whitespace = nowarn
-[push]
-	default = matching
-	followTags = true
-[gui]
-	encoding = utf-8
-[core]
-	pager = less --raw-control-chars
-	autocrlf = false
-	filemode = False
-	hideDotFiles = dotGitOnly
-	editor = notepad++
-[credential]
-	helper = cache
-[alias]
-	branches = branch -avv
-	glog = log --oneline --decorate --graph
 [user]
-	name = Tobias Kienzler
-	email = tobias.kienzler@tool-temp.ch
-[http]
-	sslVerify = false
-[pull]
-	ff = only
+	email = zommuter@users.noreply.github.com
+	name = Zommuter
+[alias]
+	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f"
+[init]
+	defaultBranch = main
